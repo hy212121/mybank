@@ -1,0 +1,5 @@
+export const USER_NAME = "HYJ"; // 이름
+export const BALANCE = 13000000; // 잔액
+export const DAILY_AMOUNT = 80000; // 하루 입금 금액
+export const START_DATE = "2025-07-30"; // 시작 날짜
+export const DAYS = 30; // 표시할 일수 (과거)

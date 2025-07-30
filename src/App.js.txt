@@ -1,0 +1,65 @@
+import React, { useState } from "react";
+import { USER_NAME, BALANCE, DAILY_AMOUNT, START_DATE, DAYS } from "./config";
+
+const generateSavings = (startDate, days, amount) => {
+  const savings = [];
+  const start = new Date(startDate);
+
+  for (let i = 0; i < days; i++) {
+    const date = new Date(start);
+    date.setDate(start.getDate() - i);
+    const yyyy = date.getFullYear();
+    const mm = (date.getMonth() + 1).toString().padStart(2, "0");
+    const dd = date.getDate().toString().padStart(2, "0");
+    savings.push({ date: `${yyyy}년 ${mm}월 ${dd}일`, amount });
+  }
+  return savings;
+};
+
+export default function App() {
+  const [showDetails, setShowDetails] = useState(false);
+  const savings = generateSavings(START_DATE, DAYS, DAILY_AMOUNT);
+
+  return (
+    <div style={{ fontFamily: "Noto Sans KR, sans-serif", backgroundColor: "#f9f9f9", minHeight: "100vh" }}>
+      <div style={{ backgroundColor: "#FFE600", padding: "20px", borderBottomLeftRadius: "15px", borderBottomRightRadius: "15px" }}>
+        <h2 style={{ margin: 0 }}>{USER_NAME}님의 계좌</h2>
+        <h1 style={{ margin: "10px 0" }}>₩{BALANCE.toLocaleString()}</h1>
+      </div>
+
+      <div style={{ padding: "20px" }}>
+        <button
+          onClick={() => setShowDetails(!showDetails)}
+          style={{
+            width: "100%",
+            backgroundColor: "#FFE600",
+            border: "none",
+            padding: "15px 0",
+            fontSize: "16px",
+            fontWeight: "bold",
+            borderRadius: "8px",
+            cursor: "pointer",
+          }}
+        >
+          {showDetails ? "간단히 보기" : "적금 내역 보기"}
+        </button>
+      </div>
+
+      {showDetails && (
+        <ul style={{ listStyle: "none", padding: "0 20px" }}>
+          {savings.map(({ date, amount }) => (
+            <li key={date} style={{
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "12px 0",
+              borderBottom: "1px solid #ddd"
+            }}>
+              <span>{date}</span>
+              <span style={{ color: "green", fontWeight: "bold" }}>+₩{amount.toLocaleString()}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
